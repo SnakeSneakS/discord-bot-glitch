@@ -61,22 +61,19 @@ const iceman_sound_url = [
 
 const short_reaction_list=[
   ["ありがとう",""], //声、url
-  ["いいえ",""],
   ["いえーい",""],
+  ["ナイス！",""],
+  ["わらわら",""],
   ["おおう...",""],
   ["ごめん",""],
   ["ちくしょー",""],
   ["どんまい",""],
-  ["ナイス！",""],
-  ["わらわら",""],
-  ["やったー",""],
-  ["やられたー",""],
-  ["助かる",""],
   ["こんにちは",""],
   ["こんばんは",""],
   ["いってらっしゃい",""],
   ["お疲れ様です",""],
   ["はい",""],
+  ["いいえ",""],
   ["of course",""],
   ["i am iceman",""]
 ]
@@ -170,10 +167,17 @@ client.login(process.env.DISCORD_BOT_TOKEN);
 
 
 
+/*関数が出てくるぜkaksjfkakfakkfmkakkfmkmkamkfmmakmkfmkmksmkmfkamkmakkfmkamkfmkamfmamkmfkmkamkmfkmamkmfkamfkaakkakakkakakakka*/
+
+
+
 function ShortReaction(message){
   let reaction_list="反応一覧 ";
   for(let i=0;i<short_reaction_list.length;i++){
-    reaction_list+="\n"+i+": "+short_reaction_list[i][0];
+    //reaction_list+="\n"+i+": "+short_reaction_list[i][0];
+    if(i%2==0)reaction_list+="\n";
+    reaction_list+=i+": "+short_reaction_list[i][0]+" ";
+    
   }
   
    message.reply(reaction_list);
