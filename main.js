@@ -114,8 +114,8 @@ client.on("message", message => {
   
   
   //reation voice
-  if(message.content.startsWith("!reaction") ){
-    
+  if(message.content.startsWith("!r") ){
+    ShortReaction(message);
     return;
   }
 
@@ -145,15 +145,19 @@ client.login(process.env.DISCORD_BOT_TOKEN);
 
 
 function ShortReaction(message){
-   message
-   message.channel.awaitMessages(() => true, { max: 1 })
+   message.reply("say reaction number \n 1: of course, \n2: great, \n3: お疲れ様です, \n4: おぅ..., \n5: やったぜ, \n6: やられた！ちくせう〜〜　\n7: ありがとう, \n8: ナイス！, \n9: ドンマイ, \n10: わらわら, \n11: 助かった, \n12: いいえ");
+  
+   message.channel.awaitMessages(() => true, { max: 10 })
    // Promiseを解決すると、収集できたメッセージのCollectionを得られる
    .then(collected => {
      // 何も収集できなかった場合を弾く(collected.sizeは取得できた個数、つまりこれは0のときを弾く)
-     if (!collected.size) return console.log('メッセージが送信されませんでした(タイムアウト)')
+     if (!collected.size){
+       message.reply('メッセージが送信されませんでした(タイムアウト)');
+       return;
+     }
      // collected.first()で取得できたメッセージを取得してログに出す
-     console.log('メッセージ: ' + collected.first().content)
-   })
+     message.reply('メッセージ: ' + collected.first().content );
+   });
 
 }
 
