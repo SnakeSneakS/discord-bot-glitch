@@ -108,7 +108,7 @@ client.on("message", message => {
   //操作色々
   if (message.content.startsWith("!help") ) {
     message.channel.send(
-      "!help: helpを見る。 \n!youtube url: youtubeのurlの動画の音声を流す \n!iceman: 様々なアイスマンの音声 \n!r: 短いリアクション音声を送信"
+      "!help: helpを見る。 \n!youtube url: youtubeのurlの動画の音声を流す \n!iceman: 様々なアイスマンの音声 \n!r: 短いリアクション音声を送信 \n\n 何か欲しい機能あればtwitterで言ってください。現状自分しか得しない気が..."
     );
     return;
   }
@@ -141,6 +141,14 @@ client.on("message", message => {
     ShortReaction(message);
     return;
   }
+  
+   //stop
+  if (message.content.startsWith("!stop") ) {
+    stop_voice(message);
+    return;
+  }
+  
+  
 
   //名前に反応
   /*if (message.content.includes("ice") && message.author != client.user) {
@@ -203,9 +211,82 @@ client.login(process.env.DISCORD_BOT_TOKEN);
 
 /*関数が出てくるぜkaksjfkakfakkfmkakkfmkmkamkfmmakmkfmkmksmkmfkamkmakkfmkamkfmkamfmamkmfkmkamkmfkmamkmfkamfkaakkakakkakakakka*/
 
+function youtube_sound(message) {
+  if (!message.member.voice.channel) {
+    message.reply("ボイスチャンネルへ入ってください");
+    return;
+  }
+
+  //const url = "https://www.youtube.com/watch?v=ZlAU_w7-Xp8";
+  const url = message.content.split(" ")[1];
+
+  if (!ytdl.validateURL(url)) {
+    message.reply("動画が存在しません");
+    return;
+  }
+
+  message.member.voice.channel
+    .join()
+    .then(connection => {
+    
+      message.reply("play youtube sound");
+    
+      const stream = ytdl(url, { filter: 'audioonly' });
+      console.log(stream);
+      const streamOptions = { seek: 0, volume: 0.3 };
+      const dispatcher = connection.play(stream ,streamOptions);
+
+      dispatcher.once("finish", reason => {
+        message.reply("youtube sound end");
+        message.member.voice.channel.leave();
+      });
+    }).catch(err => console.log(err));
+}
+
+
+
+
+
+
+
+function iceman_sound(message) {
+  if (!message.member.voice.channel) {
+    message.reply("ボイスチャンネルへ入ってください");
+    return;
+  }
+
+  //const url = "https://www.youtube.com/watch?v=ZlAU_w7-Xp8";
+  const url_num = Math.floor(Math.random() * iceman_sound_url.length);
+
+  const url = iceman_sound_url[url_num];
+
+  message.member.voice.channel
+    .join()
+    .then(connection => {
+      message.reply("play iceman sound");
+
+      const dispatcher = connection.play(url);
+
+      dispatcher.once("finish", reason => {
+        message.reply("iceman sound " + url_num + " end");
+        message.member.voice.channel.leave();
+      });
+    })
+    .catch(err => console.log(err));
+}
+
+
+
+
+
 
 
 function ShortReaction(message){
+  if (!message.member.voice.channel) {
+    message.reply("ボイスチャンネルへ入ってください");
+    return;
+  }
+  
   let reaction_list="反応一覧 ";
   for(let i=0;i<short_reaction_list.length;i++){
     //reaction_list+="\n"+i+": "+short_reaction_list[i][0];
@@ -247,64 +328,9 @@ function ShortReaction(message){
 
 
 
-function youtube_sound(message) {
-  if (!message.member.voice.channel) {
-    message.reply("ボイスチャンネルへ入ってください");
-    return;
-  }
 
-  //const url = "https://www.youtube.com/watch?v=ZlAU_w7-Xp8";
-  const url = message.content.split(" ")[1];
-
-  if (!ytdl.validateURL(url)) {
-    message.reply("動画が存在しません");
-    return;
-  }
-
-  message.member.voice.channel
-    .join()
-    .then(connection => {
-    
-      message.reply("play youtube sound");
-    
-      const stream = ytdl(url, { filter: 'audioonly' });
-      console.log(stream);
-      const streamOptions = { seek: 0, volume: 0.3 };
-      const dispatcher = connection.play(stream ,streamOptions);
-
-      dispatcher.once("finish", reason => {
-        message.reply("youtube sound end");
-        message.member.voice.channel.leave();
-      });
-    }).catch(err => console.log(err));
-}
-
-
-
-
-
-function iceman_sound(message) {
-  if (!message.member.voice.channel) {
-    message.reply("ボイスチャンネルへ入ってください");
-    return;
-  }
-
-  //const url = "https://www.youtube.com/watch?v=ZlAU_w7-Xp8";
-  const url_num = Math.floor(Math.random() * iceman_sound_url.length);
-
-  const url = iceman_sound_url[url_num];
-
-  message.member.voice.channel
-    .join()
-    .then(connection => {
-      message.reply("play iceman sound");
-
-      const dispatcher = connection.play(url);
-
-      dispatcher.once("finish", reason => {
-        message.reply("iceman sound " + url_num + " end");
-        message.member.voice.channel.leave();
-      });
-    })
-    .catch(err => console.log(err));
+function stop_voice(message){
+  if()
+    message.member.voice.channel.leave();
+  
 }
