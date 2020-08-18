@@ -147,17 +147,15 @@ client.login(process.env.DISCORD_BOT_TOKEN);
 function ShortReaction(message){
    message.reply("say reaction number \n 1: of course, \n2: great, \n3: お疲れ様です, \n4: おぅ..., \n5: やったぜ, \n6: やられた！ちくせう〜〜　\n7: ありがとう, \n8: ナイス！, \n9: ドンマイ, \n10: わらわら, \n11: 助かった, \n12: いいえ");
   
-   message.channel.awaitMessages(() => true, { max: 10 })
-   // Promiseを解決すると、収集できたメッセージのCollectionを得られる
-   .then(collected => {
-     // 何も収集できなかった場合を弾く(collected.sizeは取得できた個数、つまりこれは0のときを弾く)
-     if (!collected.size){
-       message.reply('メッセージが送信されませんでした(タイムアウト)');
-       return;
-     }
-     // collected.first()で取得できたメッセージを取得してログに出す
-     message.reply('メッセージ: ' + collected.first().content );
-   });
+   message.channel.send('yes か no を送信してください');
+     const filter = msg => msg.author.id === message.author.id;
+     message.channel.awaitMessages(filter, { max: 1, time: 10000 }).then(collected=>{
+       const response = collected.first();
+       if (!response) return message.channel.send('タイムアウト');
+       //if (0<=response.content) message.channel.send('正しくありません');
+       message.channel.send(`${response.content} が送信されました`);
+     });
+     
 
 }
 
