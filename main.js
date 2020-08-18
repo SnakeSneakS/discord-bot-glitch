@@ -64,14 +64,23 @@ client.on("ready", message => {
   console.log("ice man is here!");
 });
 
+
+
+
+
+
+
+
 //話しかけられた時
 client.on("message", message => {
   //console.log(client.user);
+  
   //呼びかけ
   if (message.mentions.has(client.user) && message.author != client.user) {
     message.reply("Hello ,  I am an ice man!");
     return;
   }
+  
 
   //操作色々
   if (message.content.startsWith("!help") && message.author != client.user) {
@@ -90,15 +99,23 @@ client.on("message", message => {
     return;
   }*/
 
-  //歌
-  if (message.content.startsWith("!youtube ") && message.guild) {
+  
+  //youtue
+  if (message.content.startsWith("!youtube ") ) {
     youtube_sound(message);
     return;
   }
 
-  //iceman sound
-  if (message.content.startsWith("!iceman") && message.guild) {
+  //iceman
+  if (message.content.startsWith("!iceman") ) {
     iceman_sound(message);
+    return;
+  }
+  
+  
+  //reation voice
+  if(message.content.startsWith("!reaction") ){
+    
     return;
   }
 
@@ -126,6 +143,26 @@ client.login(process.env.DISCORD_BOT_TOKEN);
 
 
 
+
+function ShortReaction(message){
+   message
+   message.channel.awaitMessages(() => true, { max: 1 })
+   // Promiseを解決すると、収集できたメッセージのCollectionを得られる
+   .then(collected => {
+     // 何も収集できなかった場合を弾く(collected.sizeは取得できた個数、つまりこれは0のときを弾く)
+     if (!collected.size) return console.log('メッセージが送信されませんでした(タイムアウト)')
+     // collected.first()で取得できたメッセージを取得してログに出す
+     console.log('メッセージ: ' + collected.first().content)
+   })
+
+}
+
+
+
+
+
+
+
 function youtube_sound(message) {
   if (!message.member.voice.channel) {
     message.reply("ボイスチャンネルへ入ってください");
@@ -143,24 +180,24 @@ function youtube_sound(message) {
   message.member.voice.channel
     .join()
     .then(connection => {
+    
       message.reply("play youtube sound");
     
-    
-    
-     //const stream = ytdl(ytdl.getURLVideoID(url), { filter: 'audioonly' });
-      
-      //console.log(ytdl.getURLVideoID(url));
-      //console.log(stream);
+      const stream = ytdl(url, { filter: 'audioonly' });
+      console.log(stream);
       const streamOptions = { seek: 0, volume: 0.5 };
-      const dispatcher = connection.play(ytdl(url, { filter: 'audioonly' }) ,streamOptions);
+      const dispatcher = connection.play(stream ,streamOptions);
 
       dispatcher.once("finish", reason => {
         message.reply("youtube sound end");
         message.member.voice.channel.leave();
       });
     }).catch(err => console.log(err));
-  
 }
+
+
+
+
 
 function iceman_sound(message) {
   if (!message.member.voice.channel) {
