@@ -157,7 +157,7 @@ client.on("message", message => {
 
 //voicechannelに変化があった時
 client.on('voiceStateUpdate', (oldGuildMember, newGuildMember) =>{
-    console.log(client.voice.channel);
+    console.log(client.voiceChannel);
    /*if(client.voice.channel.members.size == 0){
       client.voice.channel.leave();
    }*/
