@@ -75,17 +75,19 @@ client.on("ready", message => {
 client.on("message", message => {
   //console.log(client.user);
   
+  if(message.author == client.user) return; //自分には絶対に反応しない
+  
   //呼びかけ
-  if (message.mentions.has(client.user) && message.author != client.user) {
-    message.reply("Hello ,  I am an ice man!");
+  if (message.mentions.has(client.user) ) {
+    message.reply("Hello ,  I am an ice man! \n!help　と送信すればこのbotの機能が分かります");
     return;
   }
   
 
   //操作色々
-  if (message.content.startsWith("!help") && message.author != client.user) {
+  if (message.content.startsWith("!help") ) {
     message.channel.send(
-      "!help: helpを見る。 \n!youtube url: youtubeのurlの動画の音声を流す \n!iceman: 様々なアイスマンの反応が返ってくる"
+      "!help: helpを見る。 \n!youtube url: youtubeのurlの動画の音声を流す \n!iceman: 様々なアイスマンの音声 \n!r: 短いリアクション音声を送信"
     );
     return;
   }
@@ -193,7 +195,7 @@ function youtube_sound(message) {
     
       const stream = ytdl(url, { filter: 'audioonly' });
       console.log(stream);
-      const streamOptions = { seek: 0, volume: 0.5 };
+      const streamOptions = { seek: 0, volume: 0.3 };
       const dispatcher = connection.play(stream ,streamOptions);
 
       dispatcher.once("finish", reason => {
