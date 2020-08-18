@@ -75,11 +75,11 @@ const short_reaction_list=[
   ["はい",""],
   ["いいえ",""],
   ["of course",""],
-  ["i am iceman",""]
+  ["",""]
 ]
 
 
-
+//readyの時
 client.on("ready", message => {
   client.user.setPresence({ activity: { name: "I am an ice man." } });
   console.log("ice man is here!");
@@ -151,6 +151,41 @@ client.on("message", message => {
   }*/
 });
 
+
+
+
+
+//voicechannelに変化があった時
+client.on('voiceStateUpdate', (oldGuildMember, newGuildMember) =>{
+    console.log(client.voice.channel);
+   /*if(client.voice.channel.members.size == 0){
+      client.voice.channel.leave();
+   }*/
+
+});
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 if (process.env.DISCORD_BOT_TOKEN == undefined) {
   console.log("please set ENV: DISCORD_BOT_TOKEN");
   process.exit(0);
@@ -158,6 +193,12 @@ if (process.env.DISCORD_BOT_TOKEN == undefined) {
 
 client.login(process.env.DISCORD_BOT_TOKEN);
 //console.log(process.env.DISCORD_BOT_TOKEN);
+
+
+
+
+
+
 
 
 
