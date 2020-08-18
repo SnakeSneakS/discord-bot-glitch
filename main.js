@@ -233,7 +233,7 @@ function youtube_sound(message) {
     
       const stream = ytdl(url, { filter: 'audioonly' });
       console.log(stream);
-      const streamOptions = { seek: 0, volume: 0.3 };
+      const streamOptions = { seek: 0, volume: 0.2 };
       const dispatcher = connection.play(stream ,streamOptions);
 
       dispatcher.once("finish", reason => {
