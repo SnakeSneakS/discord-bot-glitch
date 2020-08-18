@@ -59,6 +59,14 @@ const iceman_sound_url = [
   "https://cdn.glitch.com/75239d71-a04d-498b-93d1-08778b59562b%2F7.m4a?v=1597679373931" //7
 ];
 
+const short_reaction_url=[
+  ["",""],
+  ["",""],
+
+]
+
+
+
 client.on("ready", message => {
   client.user.setPresence({ activity: { name: "I am an ice man." } });
   console.log("ice man is here!");
@@ -149,14 +157,14 @@ client.login(process.env.DISCORD_BOT_TOKEN);
 function ShortReaction(message){
   
   
-   message.reply("反応一覧 \n 1: of course, \n2: great, \n3: お疲れ様です, \n4: おぅ..., \n5: やったぜ, \n6: やられた！ちくせう〜〜　\n7: ありがとう, \n8: ナイス！, \n9: ドンマイ, \n10: わらわら, \n11: 助かった, \n12: いいえ");
+   message.reply("反応一覧 \n0: ありがとう, \n1: ナイス！,\n2: いえーい,  \n3: お疲れ様です,\n3: of course, \n4: おぅ..., \n5: やったぜ, \n6: やられた-！ちくせう〜〜　 \n9: ドンマイ, \n10: わらわら, \n11: 助かった, \n12: いいえ");
   
    message.channel.send('番号を入力してください（10秒）');
      const filter = msg => msg.author.id === message.author.id;
      message.channel.awaitMessages(filter, { max: 1, time: 10000 }).then(collected=>{
        const response = collected.first();
        if (!response) return message.channel.send('タイムアウト');
-       if (0<=response.content) {
+       if (0<=response.content && response.content<short_reaction_url.length) {
          message.channel.send(`${response.content} が送信されました`);
        }else{
          message.channel.send('正しくありません');
