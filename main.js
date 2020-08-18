@@ -221,8 +221,17 @@ function ShortReaction(message){
      message.channel.awaitMessages(filter, { max: 1, time: 10000 }).then(collected=>{
        const response = collected.first();
        if (!response) return message.channel.send('タイムアウト');
+
        if (0<=response.content && response.content<short_reaction_list.length) {
-         message.channel.send(`${response.content} が送信されました`);
+         message.channel.send(`speak ${short_reaction_list[response.content][0]} by ${message.author}`);
+         
+         message.member.voice.channel.join().then(connection => {
+           const dispatcher = connection.play(short_reaction_list[response.content][1]);
+           dispatcher.once("finish", reason => {
+              message.member.voice.channel.leave();
+            });
+          }).catch(err => console.log(err));
+         
        }else{
          message.channel.send('正しくありません');
        }
