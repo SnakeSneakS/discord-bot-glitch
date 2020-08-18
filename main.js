@@ -59,10 +59,26 @@ const iceman_sound_url = [
   "https://cdn.glitch.com/75239d71-a04d-498b-93d1-08778b59562b%2F7.m4a?v=1597679373931" //7
 ];
 
-const short_reaction_url=[
-  ["",""],
-  ["",""],
-
+const short_reaction_list=[
+  ["ありがとう",""], //声、url
+  ["いいえ",""],
+  ["いえーい",""],
+  ["おおう...",""],
+  ["ごめん",""],
+  ["ちくしょー",""],
+  ["どんまい",""],
+  ["ナイス！",""],
+  ["わらわら",""],
+  ["やったー",""],
+  ["やられたー",""],
+  ["助かる",""],
+  ["こんにちは",""],
+  ["こんばんは",""],
+  ["いってらっしゃい",""],
+  ["お疲れ様です",""],
+  ["はい",""],
+  ["of course",""],
+  ["i am iceman",""]
 ]
 
 
@@ -155,16 +171,19 @@ client.login(process.env.DISCORD_BOT_TOKEN);
 
 
 function ShortReaction(message){
+  let reaction_list="反応一覧 ";
+  for(let i=0;i<short_reaction_list.length;i++){
+    reaction_list+="\n"+i+": "+short_reaction_list[i][0];
+  }
   
-  
-   message.reply("反応一覧 \n0: ありがとう, \n1: ナイス！,\n2: いえーい,  \n3: お疲れ様です,\n3: of course, \n4: おぅ..., \n5: やったぜ, \n6: やられた-！ちくせう〜〜　 \n9: ドンマイ, \n10: わらわら, \n11: 助かった, \n12: いいえ");
+   message.reply(reaction_list);
   
    message.channel.send('番号を入力してください（10秒）');
      const filter = msg => msg.author.id === message.author.id;
      message.channel.awaitMessages(filter, { max: 1, time: 10000 }).then(collected=>{
        const response = collected.first();
        if (!response) return message.channel.send('タイムアウト');
-       if (0<=response.content && response.content<short_reaction_url.length) {
+       if (0<=response.content && response.content<short_reaction_list.length) {
          message.channel.send(`${response.content} が送信されました`);
        }else{
          message.channel.send('正しくありません');
