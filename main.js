@@ -49,39 +49,39 @@ const ytdl = require('ytdl-core');
 //const fs=require("fs");
 
 const iceman_sound_url = [
-  "https://cdn.glitch.com/75239d71-a04d-498b-93d1-08778b59562b%2F0.m4a?v=1597676969259",
-  "https://cdn.glitch.com/75239d71-a04d-498b-93d1-08778b59562b%2F1.m4a?v=1597677097322",
-  "https://cdn.glitch.com/75239d71-a04d-498b-93d1-08778b59562b%2F2.m4a?v=1597678560217",
-  "https://cdn.glitch.com/75239d71-a04d-498b-93d1-08778b59562b%2F3.m4a?v=1597680127562", //3
-  "https://cdn.glitch.com/75239d71-a04d-498b-93d1-08778b59562b%2F4.m4a?v=1597678561675",
-  "https://cdn.glitch.com/75239d71-a04d-498b-93d1-08778b59562b%2F5.m4a?v=1597679376800",
-  "https://cdn.glitch.com/75239d71-a04d-498b-93d1-08778b59562b%2F6.m4a?v=1597679373976",
-  "https://cdn.glitch.com/75239d71-a04d-498b-93d1-08778b59562b%2F7.m4a?v=1597679373931" //7
+  "https://cdn.glitch.com/97530961-035b-4578-a35b-a13ae0f6de62%2F0.m4a?v=1597761900695",
+  "https://cdn.glitch.com/97530961-035b-4578-a35b-a13ae0f6de62%2F1.m4a?v=1597761901329",
+  "https://cdn.glitch.com/97530961-035b-4578-a35b-a13ae0f6de62%2F2.m4a?v=1597761902562",
+  "https://cdn.glitch.com/97530961-035b-4578-a35b-a13ae0f6de62%2F3.m4a?v=1597761905033", //3
+  "https://cdn.glitch.com/97530961-035b-4578-a35b-a13ae0f6de62%2F4.m4a?v=1597761903812",
+  "https://cdn.glitch.com/97530961-035b-4578-a35b-a13ae0f6de62%2F5.m4a?v=1597761906161",
+  "https://cdn.glitch.com/97530961-035b-4578-a35b-a13ae0f6de62%2F6.m4a?v=1597761903495",
+  "https://cdn.glitch.com/97530961-035b-4578-a35b-a13ae0f6de62%2F7.m4a?v=1597761903469" //7
 ];
 
 const short_reaction_list=[
-  ["ありがとう",""], //声、url
-  ["いえーい",""],
-  ["ナイス！",""],
-  ["わらわら",""],
-  ["おおう...",""],
-  ["ごめん",""],
-  ["ちくしょー",""],
+  ["ありがとう","https://cdn.glitch.com/97530961-035b-4578-a35b-a13ae0f6de62%2Fr_arigatou.m4a?v=1597761480659"], //声、url
+  ["いえーい","https://cdn.glitch.com/97530961-035b-4578-a35b-a13ae0f6de62%2Fr_iei.m4a?v=1597761480192"],    //r_iei 
+  ["ナイス！","https://cdn.glitch.com/97530961-035b-4578-a35b-a13ae0f6de62%2Fr_nice.m4a?v=1597761482039"],
+  ["わらわら","https://cdn.glitch.com/97530961-035b-4578-a35b-a13ae0f6de62%2Fr_warawara.m4a?v=1597761481380"],
+  ["おおう...","https://cdn.glitch.com/97530961-035b-4578-a35b-a13ae0f6de62%2Fr_oou.m4a?v=1597761481808"],
+  ["ごめん","https://cdn.glitch.com/97530961-035b-4578-a35b-a13ae0f6de62%2Fr_gomen.m4a?v=1597761480281"],
+  ["ちくしょー","https://cdn.glitch.com/97530961-035b-4578-a35b-a13ae0f6de62%2Fr_tikusho.m4a?v=1597761481571"],
   ["どんまい","https://cdn.glitch.com/97530961-035b-4578-a35b-a13ae0f6de62%2Fr_donmai.m4a?v=1597761479808"],
-  ["こんにちは",""],
-  ["こんばんは",""],
-  ["いってらっしゃい",""],
-  ["お疲れ様です",""],
-  ["はい",""],
-  ["いいえ",""],
-  ["of course",""],
-  ["",""]
+  ["こんにちは","https://cdn.glitch.com/97530961-035b-4578-a35b-a13ae0f6de62%2Fr_konnnitiwa.m4a?v=1597761481123"],
+  ["こんばんは","https://cdn.glitch.com/97530961-035b-4578-a35b-a13ae0f6de62%2Fr_konbanwa.m4a?v=1597761480809"],
+  ["いってらっしゃい","https://cdn.glitch.com/97530961-035b-4578-a35b-a13ae0f6de62%2Fr_itterassyai.m4a?v=1597761480726"],
+  ["お疲れ様です","https://cdn.glitch.com/97530961-035b-4578-a35b-a13ae0f6de62%2Fr_otukaresamadesu.m4a?v=1597761481547"],
+  ["はい","https://cdn.glitch.com/97530961-035b-4578-a35b-a13ae0f6de62%2Fr_hai.m4a?v=1597761480064"],
+  ["いいえ","https://cdn.glitch.com/97530961-035b-4578-a35b-a13ae0f6de62%2Fr_iie.m4a?v=1597761480508"],
+  ["of course","https://cdn.glitch.com/97530961-035b-4578-a35b-a13ae0f6de62%2Fr_ofcourse.m4a?v=1597761481630"],
+  ["WeCanDoIt!","https://cdn.glitch.com/97530961-035b-4578-a35b-a13ae0f6de62%2Fr_wecandoit.m4a?v=1597761482910"]
 ]
 
 
 //readyの時
 client.on("ready", message => {
-  client.user.setPresence({ activity: { name: "I am an ice man." } });
+  client.user.setPresence({ activity: { name: "I am an ice man 「!help」でヘルプ" } });
   console.log("ice man is here!");
 });
 
