@@ -108,7 +108,7 @@ client.on("message", message => {
   //操作色々
   if (message.content.startsWith("!help") ) {
     message.channel.send(
-      "!help: helpを見る。 \n!youtube url: youtubeのurlの動画の音声を流す \n!iceman: 様々なアイスマンの音声 \n!r: 短いリアクション音声を送信 \n\n 何か欲しい機能あればtwitterで言ってください。現状自分しか得しない気が..."
+      "!help: helpを見る。 \n!youtube url: youtubeのurlの動画の音声を流す \n!iceman: 様々なアイスマンの音声 \n!r: 短いリアクション音声を送信 \n!bye: ボイスチャンネルから追い出す \n\n 何か欲しい機能あればtwitterで言ってください。現状自分しか得しない気が..."
     );
     return;
   }
@@ -143,8 +143,8 @@ client.on("message", message => {
   }
   
    //stop
-  if (message.content.startsWith("!stop") ) {
-    stop_voice(message);
+  if (message.content.startsWith("!bye") ) {
+    bye(message);
     return;
   }
   
@@ -329,8 +329,11 @@ function ShortReaction(message){
 
 
 
-function stop_voice(message){
-  if()
+function bye(message){
+    if (!message.member.voice.channel) {
+      message.reply("ボイスチャンネルへ入ってください");
+      return;
+  }else{
     message.member.voice.channel.leave();
-  
+  }
 }
