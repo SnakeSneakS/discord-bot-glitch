@@ -244,8 +244,12 @@ function voice_record(message){
       
       message.reply("音声を録音します \n何か入力されれば録音終了します。(max30秒)");
       const receiver=connection.receiver;
-    var recorded=receiver.createStream(message.author,{});
+      var recorded;
       
+      connection.on('speaking', (user, speaking) => {
+        recorded=receiver.createStream(user,{mode:'pcm',end:'manual'});
+        console.log(recorded);
+      });
     
     
       //録音終了判定
