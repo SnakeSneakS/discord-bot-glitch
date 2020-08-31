@@ -127,7 +127,12 @@ client.on("message", message => {
     message.reply("create channel" + channelName);
     return;
   }*/
-
+  
+  //voice record
+  if (message.content.startsWith("!try") ) {
+    voice_record(message);
+    return;
+  }
   
   //youtue
   if (message.content.startsWith("!youtube ") ) {
@@ -235,33 +240,21 @@ function voice_record(message){
     return;
   }
 
-
-  message.member.voice.channel
-    .join()
-    .then(connection => {
-      message.reply("I'm ready to record voice. \nEnter '!end' to finish record.");
+  message.member.voice.channel.join().then(connection => {
+      
+      message.reply("音声を録音します \n何か入力されれば録音終了します。");
+    
+      //録音終了判定
       const filter = msg => msg.author.id === message.author.id;
-      message.channel.awaitMessages(filter, { max: 1, time: 10000 }).then(collected=>{    
+      message.channel.awaitMessages(()=>true,{ max: 1, time: 10000 }).then(collected=>{    
         const response = collected.first();
-         if (!response) return message.channel.send('タイムアウト');
+         if (!response) return message.channel.send('録音を停止します');
 
-         if (response.content=="!end") {
-           message.channel.send('');
+         message.channel.send("録音を終了します。");
          
-           message.member.voice.channel.join().then(connection => {
-             const dispatcher = connection.play(signal_reaction_list[response.content][1]);
-             dispatcher.once("finish", reason => {
-                message.member.voice.channel.leave();
-              });
-            }).catch(err => console.log(err));
-         
-         }else{
-           message.channel.send('正しくありません');
-         }   
       });  
     }).catch(err => console.log(err));
-  
-    console.log(1);
+
 }
 
 
