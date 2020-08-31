@@ -244,7 +244,9 @@ function voice_record(message){
       
       message.reply("音声を録音します \n何か入力されれば録音終了します。(max30秒)");
       const receiver=connection.receiver;
-      receiver.createStream();
+    var recorded=receiver.createStream(message.author,{});
+      
+    
     
       //録音終了判定
       const filter = msg=>msg.author!=client.user;//自分以外
@@ -256,9 +258,8 @@ function voice_record(message){
          }
          if(client.user!=response.author) {
            message.channel.send("録音を終了します。");
-           
+           console.log(recorded);
            message.member.voice.channel.leave();
-           
          }
         
          
