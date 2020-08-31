@@ -242,16 +242,24 @@ function voice_record(message){
 
   message.member.voice.channel.join().then(connection => {
       
-      message.reply("音声を録音します \n何か入力されれば録音終了します。");
+      message.reply("音声を録音します \n何か入力されれば録音終了します。(max30秒)");
+      const receiver=connection.receiver;
+      receiver.createStream();
     
       //録音終了判定
-      const filter = msg => msg.author.id === message.author.id;
-      message.channel.awaitMessages(()=>true,{ max: 5, time: 100000 }).then(collected=>{    
+      const filter = msg=>msg.author!=client.user;//自分以外
+      message.channel.awaitMessages(filter,{ max: 1, time: 30000 }).then(collected=>{    
         const response = collected.first();
-         if (!response) return message.channel.send('録音を停止します');
-         if(client.user==response.author) return;
-        
-        message.channel.send("録音を終了します。");
+         if (!response){
+           message.member.voice.channel.leave();
+           return message.channel.send('30秒超過。録音を停止します');
+         }
+         if(client.user!=response.author) {
+           message.channel.send("録音を終了します。");
+           
+           message.member.voice.channel.leave();
+           
+         }
         
          
       });  
