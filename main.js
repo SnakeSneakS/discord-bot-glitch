@@ -246,11 +246,13 @@ function voice_record(message){
     
       //録音終了判定
       const filter = msg => msg.author.id === message.author.id;
-      message.channel.awaitMessages(()=>true,{ max: 1, time: 10000 }).then(collected=>{    
+      message.channel.awaitMessages(()=>true,{ max: 5, time: 100000 }).then(collected=>{    
         const response = collected.first();
          if (!response) return message.channel.send('録音を停止します');
-
-         message.channel.send("録音を終了します。");
+         if(client.user==response.author) return;
+        
+        message.channel.send("録音を終了します。");
+        
          
       });  
     }).catch(err => console.log(err));
