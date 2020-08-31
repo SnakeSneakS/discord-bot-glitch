@@ -247,7 +247,7 @@ function voice_record(message){
       var recorded;
       
       connection.on('speaking', (user, speaking) => {
-        recorded=receiver.createStream(user,{/*mode:'opus',end:'manual'*/});
+        recorded=receiver.createStream(user,{mode:'opus',end:'manual'});
       });
     
     
@@ -262,7 +262,7 @@ function voice_record(message){
          if(client.user!=response.author) {
            message.channel.send("録音を終了します。");
            console.log(recorded);
-           connection.play(recorded,{ type:'opus', volume:1.0 });
+           setTimeout(function(){ connection.play(recorded,{ type:'opus' }) },1000);
            /*message.channel.send({
              files: [{
     attachment: recorded,
