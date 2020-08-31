@@ -262,12 +262,13 @@ function voice_record(message){
          if(client.user!=response.author) {
            message.channel.send("録音を終了します。");
            console.log(recorded);
-           message.channel.send({
+           connection.play(recorded);
+           /*message.channel.send({
              files: [{
     attachment: recorded,
     name: 'file.jpg'
-  }]});
-           message.member.voice.channel.leave();
+  }]});*/
+           //message.member.voice.channel.leave();
          }
         
          
