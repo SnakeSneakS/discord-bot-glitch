@@ -114,7 +114,7 @@ client.on("message", message => {
   //操作色々
   if (message.content.startsWith("!help") ) {
     message.channel.send(
-      "!help: helpを見る。 \n!youtube url: youtubeのurlの動画の音声を流す \n!iceman: 様々なアイスマンの音声 \n!r: 短いリアクション音声を送信　\n!signal: signal関係のリアクション音声 \n!bye: ボイスチャンネルから追い出す \n\n 何か欲しい機能あればtwitterで言ってください。現状自分しか得しない気が..."
+      "!help: helpを見る。 \n!youtube url: youtubeのurlの動画の音声を流す \n!iceman: 様々なアイスマンの音声 \n!r: 短いリアクション音声を送信　\n!signal: signal関係のリアクション音声 \n!bye: ボイスチャンネルから追い出す \n\n 何か欲しい機能あればtwitterで言ってください。音声ファイル送ってくれればそれも流せます"
     );
     return;
   }
@@ -147,6 +147,14 @@ client.on("message", message => {
     ShortReaction(message);
     return;
   }
+  
+  
+  //signal reation voice
+  if(message.content.startsWith("!signal") ){
+    SignalReaction(message);
+    return;
+  }
+  
   
    //stop
   if (message.content.startsWith("!bye") ) {
@@ -215,7 +223,47 @@ client.login(process.env.DISCORD_BOT_TOKEN);
 
 
 
+
+
+
+
 /*関数が出てくるぜkaksjfkakfakkfmkakkfmkmkamkfmmakmkfmkmksmkmfkamkmakkfmkamkfmkamfmamkmfkmkamkmfkmamkmfkamfkaakkakakkakakakka*/
+
+function voice_record(message){
+  if (!message.member.voice.channel) {
+    message.reply("ボイスチャンネルへ入ってください");
+    return;
+  }
+
+
+  message.member.voice.channel
+    .join()
+    .then(connection => {
+      message.reply("I'm ready to record voice. \nEnter '!end' to finish record.");
+      const filter = msg => msg.author.id === message.author.id;
+      message.channel.awaitMessages(filter, { max: 1, time: 10000 }).then(collected=>{    
+        const response = collected.first();
+         if (!response) return message.channel.send('タイムアウト');
+
+         if (response.content=="!end") {
+           message.channel.send('');
+         
+           message.member.voice.channel.join().then(connection => {
+             const dispatcher = connection.play(signal_reaction_list[response.content][1]);
+             dispatcher.once("finish", reason => {
+                message.member.voice.channel.leave();
+              });
+            }).catch(err => console.log(err));
+         
+         }else{
+           message.channel.send('正しくありません');
+         }   
+      });  
+    }).catch(err => console.log(err));
+  
+    console.log(1);
+}
+
 
 function youtube_sound(message) {
   if (!message.member.voice.channel) {
@@ -330,6 +378,46 @@ function ShortReaction(message){
 
 
 
+
+function SignalReaction(message){
+  if (!message.member.voice.channel) {
+    message.reply("ボイスチャンネルへ入ってください");
+    return;
+  }
+  
+  let reaction_list="反応一覧 ";
+  for(let i=0;i<signal_reaction_list.length;i++){
+    //reaction_list+="\n"+i+": "+signal_reaction_list[i][0];
+    if(i%2==0)reaction_list+="\n";
+    reaction_list+=i+": "+signal_reaction_list[i][0]+" ";
+  }
+  
+   message.reply(reaction_list);
+  
+   message.channel.send('番号を入力してください（10秒）');
+     const filter = msg => msg.author.id === message.author.id;
+     message.channel.awaitMessages(filter, { max: 1, time: 10000 }).then(collected=>{
+       const response = collected.first();
+       if (!response) return message.channel.send('タイムアウト');
+
+       if (0<=response.content && response.content<signal_reaction_list.length) {
+         message.channel.send(`speak ${signal_reaction_list[response.content][0]} by ${message.author}`);
+         
+         message.member.voice.channel.join().then(connection => {
+           const dispatcher = connection.play(signal_reaction_list[response.content][1]);
+           dispatcher.once("finish", reason => {
+              message.member.voice.channel.leave();
+            });
+          }).catch(err => console.log(err));
+         
+       }else{
+         message.channel.send('正しくありません');
+       }
+       
+     });
+     
+
+}
 
 
 
