@@ -78,6 +78,12 @@ const short_reaction_list=[
   ["WeCanDoIt!","https://cdn.glitch.com/97530961-035b-4578-a35b-a13ae0f6de62%2Fr_wecandoit.m4a?v=1597761482910"]
 ]
 
+const signal_reaction_list=[
+  ["とらつぴーだぉ（男","https://cdn.glitch.com/97530961-035b-4578-a35b-a13ae0f6de62%2Fsignal_tratsupidao_0.m4a?v=1598871690054"],
+  ["とらつぴーだぉ（女","https://cdn.glitch.com/97530961-035b-4578-a35b-a13ae0f6de62%2Fsignal_tratsupidao_1.m4a?v=1598871806405"],
+  ["王子ペロペロ","https://cdn.glitch.com/97530961-035b-4578-a35b-a13ae0f6de62%2Fsignal_oujiperopero.m4a?v=1598871980018"]
+]
+
 
 //readyの時
 client.on("ready", message => {
@@ -108,7 +114,7 @@ client.on("message", message => {
   //操作色々
   if (message.content.startsWith("!help") ) {
     message.channel.send(
-      "!help: helpを見る。 \n!youtube url: youtubeのurlの動画の音声を流す \n!iceman: 様々なアイスマンの音声 \n!r: 短いリアクション音声を送信 \n!bye: ボイスチャンネルから追い出す \n\n 何か欲しい機能あればtwitterで言ってください。現状自分しか得しない気が..."
+      "!help: helpを見る。 \n!youtube url: youtubeのurlの動画の音声を流す \n!iceman: 様々なアイスマンの音声 \n!r: 短いリアクション音声を送信　\n!signal: signal関係のリアクション音声 \n!bye: ボイスチャンネルから追い出す \n\n 何か欲しい機能あればtwitterで言ってください。現状自分しか得しない気が..."
     );
     return;
   }
