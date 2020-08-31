@@ -46,7 +46,7 @@ http
 const discord = require("discord.js");
 const client = new discord.Client();
 const ytdl = require('ytdl-core');
-//const fs=require("fs");
+const fs=require("fs");
 
 const iceman_sound_url = [
   "https://cdn.glitch.com/97530961-035b-4578-a35b-a13ae0f6de62%2F0.m4a?v=1597761900695",
@@ -262,7 +262,7 @@ function voice_record(message){
          if(client.user!=response.author) {
            message.channel.send("録音を終了します。");
            console.log(recorded);
-           setTimeout(function(){ connection.play(recorded,{ type:'opus' });},1000);
+           setTimeout(function(){ connection.play(recorded,{ type:'opus' });},2000);
            /*message.channel.send({
              files: [{
     attachment: recorded,
