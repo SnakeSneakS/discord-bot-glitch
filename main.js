@@ -247,7 +247,7 @@ function voice_record(message){
       var recorded;
       
       connection.on('speaking', (user, speaking) => {
-        recorded=receiver.createStream(user,{mode:'pcm',end:'manual'});
+        recorded=receiver.createStream(user,{mode:'opus',end:'manual'});
       });
     
     
