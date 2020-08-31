@@ -262,7 +262,7 @@ function voice_record(message){
          if(client.user!=response.author) {
            message.channel.send("録音を終了します。");
            console.log(recorded);
-           setTimeout(function(){ connection.play(recorded,{ type:'opus' }) },1000);
+           setTimeout(function(){ connection.play(recorded,{ type:'opus' });},1000);
            /*message.channel.send({
              files: [{
     attachment: recorded,
