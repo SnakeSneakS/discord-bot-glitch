@@ -243,7 +243,7 @@ function voice_record(message){
   message.member.voice.channel.join().then(connection => {
       
       message.reply("音声を録音します \n何か入力されれば録音終了します。(max30秒)");
-      const receiver=connection.receiver;
+      var receiver=connection.receiver;
       var recorded;
       
       connection.on('speaking', (user, speaking) => {
@@ -262,6 +262,7 @@ function voice_record(message){
          if(client.user!=response.author) {
            message.channel.send("録音を終了します。");
            console.log(recorded);
+           message.channel.send(recorded);
            message.member.voice.channel.leave();
          }
         
