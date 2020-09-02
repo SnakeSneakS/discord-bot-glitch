@@ -254,7 +254,6 @@ function generateOutputFile(member) {
 
 
 /*関数が出てくるぜkaksjfkakfakkfmkakkfmkmkamkfmmakmkfmkmksmkmfkamkmakkfmkamkfmkamfmamkmfkmkamkmfkmamkmfkamfkaakkakakkakakakka*/
-
 function voice_record(message){
   if (!message.member.voice.channel) {
     message.reply("ボイスチャンネルへ入ってください");
@@ -308,6 +307,17 @@ function voice_record(message){
 }
 
 
+
+
+
+function play_recordings(){
+  
+}
+
+
+
+
+
 function youtube_sound(message) {
   if (!message.member.voice.channel) {
     message.reply("ボイスチャンネルへ入ってください");
@@ -339,6 +349,8 @@ function youtube_sound(message) {
       });
     }).catch(err => console.log(err));
 }
+
+
 
 
 
