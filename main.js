@@ -240,14 +240,8 @@ client.login(process.env.DISCORD_BOT_TOKEN);
 
 // make a new stream for each time someone starts to talk
 function generateOutputFile(member) {
-  fs.writeFile( 'public/recordings/test.txt', 'Hello!', function (err) {
-    if (err) { throw err; }
-    console.log('test.txtが作成されました');
-});
-  
-  
   // use IDs instead of username cause some people have stupid emojis in their name
-  const fileName = `./recordings/${Date.now()}.pcm`;
+  const fileName = `./public/recordings/${Date.now()}.pcm`;
   const file= fs.createWriteStream(fileName);
   return file;
 }
