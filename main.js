@@ -247,7 +247,7 @@ client.login(process.env.DISCORD_BOT_TOKEN);
 // make a new stream for each time someone starts to talk
 function generateOutputFile(member) {
   // use IDs instead of username cause some people have stupid emojis in their name
-  const fileName = `./public/recordings/${member.id}-${Date.now()}.opus`;
+  const fileName = `./public/recordings/${member.id}-${Date.now()}.pcm`;
   const file= fs.createWriteStream(fileName);
   return file;
 }
@@ -279,10 +279,10 @@ function voice_record(message){
         if(!speaking) return;
         //if(user==client.user)return;
         //console.log(user);
-        recorded=receiver.createStream(user,{mode:'opus'/*,end:'manual'*/});
+        recorded=receiver.createStream(user,{mode:'pcm'/*,end:'manual'*/});
         const outputStream = generateOutputFile({user});
          recorded.pipe(outputStream);
-        //outpusStream.on('data',console.log);
+        outputStream.on('data',console.log);
         recorded.on('end',()=>{
           outputStream.end();
           message.channel.send("end");
@@ -325,7 +325,8 @@ function record_play(message){
   fs.readdir('./public/recordings', function(err, files){
     if (err) throw err;
         fileList = files.filter(function(file){
-        return files.filter(el => /\.opus$/.test(el))//絞り込み
+        //return files.filter(el => /\.opus$/.test(el))//絞り込み
+          return file;
     })
     
     var text="";
@@ -334,10 +335,14 @@ function record_play(message){
       text+=`${i}: ${fileList[i]} \n`;
       
     }
-    if(text!="")message.channel.send(text);
+    if(text!=""){
+      message.channel.send(text);
+    }else{
+      return message.channel.send('録音は現在存在しません');
+    }
 });
   
-  if(fileList.length==0) return message.channel.send('録音は現在存在しません');
+  //if(!fileList.length) 
   
   const filter = msg => msg.author.id === message.author.id;
   message.channel.awaitMessages(filter, { max: 1, time: 10000 }).then(collected=>{
@@ -347,7 +352,7 @@ function record_play(message){
        
       
        if (0<=response.content && response.content<fileList.length) {
-         message.channel.send(`play ${fileList[response.content]}`,{/*type:'converted'*/});
+         message.channel.send(`play ${fileList[response.content]}`,{type:'converted'});
          
          message.member.voice.channel.join().then(connection => {
            const dispatcher = connection.play(`./public/recordings/${fileList[response.content]}`);
