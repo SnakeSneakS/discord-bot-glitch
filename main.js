@@ -283,6 +283,7 @@ function voice_record(message){
         recorded.on('data',console.log);
         recorded.on('end',()=>{
           outputStream.end();
+          console.log(1);
         });
       });
     
@@ -297,7 +298,7 @@ function voice_record(message){
          if(client.user!=response.author) {
            message.member.voice.channel.leave();
            message.channel.send("録音を終了します。");
-           console.log(recorded);
+           //console.log(recorded);
            //setTimeout(function(){ connection.play(recorded,{ type:'opus' });},2000);
            /*message.channel.send({
              files: [{
