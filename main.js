@@ -47,6 +47,10 @@ const discord = require("discord.js");
 const client = new discord.Client();
 const ytdl = require('ytdl-core');
 const fs=require("fs");
+const {Readable}=require('stream');
+class Silence extends Readable{
+  _read(){this.push(Buffer.from([0xF8,0xFF,0xFE]))}
+}
 
 const iceman_sound_url = [
   "https://cdn.glitch.com/97530961-035b-4578-a35b-a13ae0f6de62%2F0.m4a?v=1597761900695",
@@ -257,6 +261,7 @@ function voice_record(message){
   }
 
   message.member.voice.channel.join().then(connection => {
+      connection.play(new Silence,{type:'opus'});//silence
       
       message.reply("音声を録音します \n何か入力されれば録音終了します。(max30秒)");
       var receiver=connection.receiver;
@@ -264,11 +269,12 @@ function voice_record(message){
       
       connection.on('speaking', (user, speaking) => {
         //console.log(1);
-        recorded=receiver.createStream(user,{mode:'opus'/*,end:'manual'*/});
+        recorded=receiver.createStream(user,{mode:'pcm'/*,end:'manual'*/});
         const outputStream = generateOutputFile(user);
          recorded.pipe(outputStream);
-        outputStream.on('data',console.log);
-        outputStream.on('end',()=>{
+        recorded.on('data',console.log);
+        recorded.on('end',()=>{
+          outputStream.end();
           console.log("recorded");
         });
       });
