@@ -266,11 +266,13 @@ function voice_record(message){
       message.reply("音声を録音します \n何か入力されれば録音終了します。(max30秒)");
       var receiver=connection.receiver;
       var recorded;
+    
+    const outputStream = generateOutputFile({id:'a'});
       
       connection.on('speaking', (user, speaking) => {
-        if(user==client.user)return;
+        //if(user==client.user)return;
         recorded=receiver.createStream(user,{mode:'pcm',end:'manual'});
-        const outputStream = generateOutputFile(user);
+        //const outputStream = generateOutputFile({user});
          recorded.pipe(outputStream);
         recorded.on('data',console.log);
         recorded.on('end',()=>{
@@ -311,7 +313,14 @@ function voice_record(message){
 
 
 function play_recordings(){
-  
+  fs.readdir('./public/recordings', function(err, files){
+  fs.readdir('.', function(err, files){
+    if (err) throw err;
+    var fileList = files.filter(function(file){
+        return fs.statSync(file).isFile() && /.*\.csv$/.test(file); //絞り込み
+    })
+    console.log(fileList);
+});
 }
 
 
