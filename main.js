@@ -232,6 +232,22 @@ client.login(process.env.DISCORD_BOT_TOKEN);
 
 
 
+
+
+// make a new stream for each time someone starts to talk
+function generateOutputFile(member) {
+  // use IDs instead of username cause some people have stupid emojis in their name
+  const fileName = `./recordings/${member.id}-${Date.now()}.pcm`;
+  return fs.createWriteStream(fileName);
+}
+
+
+
+
+
+
+
+
 /*関数が出てくるぜkaksjfkakfakkfmkakkfmkmkamkfmmakmkfmkmksmkmfkamkmakkfmkamkfmkamfmamkmfkmkamkmfkmamkmfkamfkaakkakakkakakakka*/
 
 function voice_record(message){
@@ -248,6 +264,10 @@ function voice_record(message){
       
       connection.on('speaking', (user, speaking) => {
         recorded=receiver.createStream(user,{mode:'opus',end:'manual'});
+        const outputStream = generateOutputFile(user);
+        outputStream.on('end',()=>{
+          console.log("recorded");
+        });
       });
     
     
@@ -262,7 +282,7 @@ function voice_record(message){
          if(client.user!=response.author) {
            message.channel.send("録音を終了します。");
            console.log(recorded);
-           setTimeout(function(){ connection.play(recorded,{ type:'opus' });},2000);
+           //setTimeout(function(){ connection.play(recorded,{ type:'opus' });},2000);
            /*message.channel.send({
              files: [{
     attachment: recorded,
