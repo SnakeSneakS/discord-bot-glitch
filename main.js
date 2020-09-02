@@ -247,7 +247,7 @@ client.login(process.env.DISCORD_BOT_TOKEN);
 // make a new stream for each time someone starts to talk
 function generateOutputFile(member) {
   // use IDs instead of username cause some people have stupid emojis in their name
-  const fileName = `./public/recordings/${member.id}-${Date.now()}.pcm`;
+  const fileName = `./public/recordings/${member.id}-${Date.now()}.opus`;
   const file= fs.createWriteStream(fileName);
   return file;
 }
@@ -277,7 +277,7 @@ function voice_record(message){
       
       connection.on('speaking', (user, speaking) => {
         //if(user==client.user)return;
-        recorded=receiver.createStream(user,{mode:'pcm',end:'manual'});
+        recorded=receiver.createStream(user,{mode:'opus',end:'manual'});
         //const outputStream = generateOutputFile({user});
          recorded.pipe(outputStream);
         recorded.on('data',console.log);
@@ -323,7 +323,7 @@ function record_play(message){
   fs.readdir('./public/recordings', function(err, files){
     if (err) throw err;
         fileList = files.filter(function(file){
-        return files.filter(el => /\.pcm$/.test(el))//絞り込み
+        return files.filter(el => /\.opus$/.test(el))//絞り込み
     })
     
     for(let i=0; i<fileList.length;i++){
