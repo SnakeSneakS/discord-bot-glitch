@@ -261,7 +261,7 @@ function voice_record(message){
   }
 
   message.member.voice.channel.join().then(connection => {
-      connection.play(new Silence,{type:'opus'});//silence
+      //connection.play(new Silence,{type:'opus'});//silence
       
       message.reply("音声を録音します \n何か入力されれば録音終了します。(max30秒)");
       var receiver=connection.receiver;
@@ -269,7 +269,7 @@ function voice_record(message){
       
       connection.on('speaking', (user, speaking) => {
         //console.log(1);
-        recorded=receiver.createStream(user,{mode:'pcm'/*,end:'manual'*/});
+        recorded=receiver.createStream(user,{mode:'pcm',end:'manual'});
         const outputStream = generateOutputFile(user);
          recorded.pipe(outputStream);
         recorded.on('data',console.log);
