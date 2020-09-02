@@ -278,6 +278,7 @@ function voice_record(message){
       connection.on('speaking', (user, speaking) => {
         if(!speaking) return;
         //if(user==client.user)return;
+        console.log(user);
         recorded=receiver.createStream(user,{mode:'pcm'/*,end:'manual'*/});
         const outputStream = generateOutputFile({user});
          recorded.pipe(outputStream);
