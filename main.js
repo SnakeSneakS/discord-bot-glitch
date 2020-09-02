@@ -240,7 +240,7 @@ client.login(process.env.DISCORD_BOT_TOKEN);
 
 // make a new stream for each time someone starts to talk
 function generateOutputFile(member) {
-  fs.writeFile( 'recordings/test.txt', 'Hello!', function (err) {
+  fs.writeFile( 'public/recordings/test.txt', 'Hello!', function (err) {
     if (err) { throw err; }
     console.log('test.txtが作成されました');
 });
