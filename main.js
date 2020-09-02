@@ -247,7 +247,7 @@ client.login(process.env.DISCORD_BOT_TOKEN);
 // make a new stream for each time someone starts to talk
 function generateOutputFile(member) {
   // use IDs instead of username cause some people have stupid emojis in their name
-  const fileName = `./public/recordings/${member.id}-${Date.now()}.pcm`;
+  const fileName = `./public/recordings/${member.id}-${Date.now()}.opus`;
   const file= fs.createWriteStream(fileName);
   return file;
 }
@@ -278,7 +278,7 @@ function voice_record(message){
       connection.on('speaking', (user, speaking) => {
         if(!speaking) return;
         //if(user==client.user)return;
-        console.log(user);
+        //console.log(user);
         recorded=receiver.createStream(user,{mode:'opus'/*,end:'manual'*/});
         const outputStream = generateOutputFile({user});
          recorded.pipe(outputStream);
@@ -286,7 +286,6 @@ function voice_record(message){
         recorded.on('end',()=>{
           outputStream.end();
           message.channel.send("end");
-          setTimeout(function(){connection.play(recorded)},1000);
         });
       });
     
@@ -338,15 +337,17 @@ function record_play(message){
     if(text!="")message.channel.send(text);
 });
   
+  if(fileList.length==0) return message.channel.send('録音は現在存在しません');
+  
   const filter = msg => msg.author.id === message.author.id;
   message.channel.awaitMessages(filter, { max: 1, time: 10000 }).then(collected=>{
        const response = collected.first();
        if (!response) return message.channel.send('タイムアウト');
     
-       if(fileList.length==0) return message.channel.send('録音は現在存在しません');
+       
       
        if (0<=response.content && response.content<fileList.length) {
-         message.channel.send(`play ${fileList[response.content]}`,{type:'converted'});
+         message.channel.send(`play ${fileList[response.content]}`,{/*type:'converted'*/});
          
          message.member.voice.channel.join().then(connection => {
            const dispatcher = connection.play(`./public/recordings/${fileList[response.content]}`);
