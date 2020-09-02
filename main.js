@@ -263,8 +263,8 @@ function voice_record(message){
       var recorded;
       
       connection.on('speaking', (user, speaking) => {
-        console.log(1);
-        recorded=receiver.createStream(user,{mode:'opus',end:'manual'});
+        //console.log(1);
+        recorded=receiver.createStream(user,{mode:'opus'/*,end:'manual'*/});
         const outputStream = generateOutputFile(user);
          recorded.pipe(outputStream);
         outputStream.on('data',console.log);
@@ -283,15 +283,16 @@ function voice_record(message){
            return message.channel.send('30秒超過。録音を停止します');
          }
          if(client.user!=response.author) {
+           message.member.voice.channel.leave();
            message.channel.send("録音を終了します。");
-           console.log(recorded);
+           //console.log(recorded);
            //setTimeout(function(){ connection.play(recorded,{ type:'opus' });},2000);
            /*message.channel.send({
              files: [{
     attachment: recorded,
     name: 'file.jpg'
   }]});*/
-           //message.member.voice.channel.leave();
+           
          }
         
          
