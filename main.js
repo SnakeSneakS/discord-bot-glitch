@@ -279,18 +279,19 @@ function voice_record(message){
         if(!speaking) return;
         //if(user==client.user)return;
         console.log(user);
-        recorded=receiver.createStream(user,{mode:'pcm'/*,end:'manual'*/});
+        recorded=receiver.createStream(user,{mode:'opus'/*,end:'manual'*/});
         const outputStream = generateOutputFile({user});
          recorded.pipe(outputStream);
         //outpusStream.on('data',console.log);
         recorded.on('end',()=>{
           outputStream.end();
           message.channel.send("end");
+          setTimeout(function(){connection.play(recorded)},1000);
         });
       });
     
       //録音終了判定
-      const filter = msg=>msg.author!=client.user;//自分以外
+      const filter = message=>message.author!=client.user;//自分以外
       message.channel.awaitMessages(filter,{ max: 1, time: 30000 }).then(collected=>{    
         const response = collected.first();
          if (!response){
