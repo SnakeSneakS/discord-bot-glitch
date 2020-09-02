@@ -242,7 +242,8 @@ client.login(process.env.DISCORD_BOT_TOKEN);
 function generateOutputFile(member) {
   // use IDs instead of username cause some people have stupid emojis in their name
   const fileName = `./recordings/${Date.now()}.pcm`;
-  return fs.createWriteStream(fileName);
+  const file= fs.createWriteStream(fileName);
+  return file;
 }
 
 
@@ -278,7 +279,6 @@ function voice_record(message){
           console.log(`${Date.now()}`);
         });
       });
-    
     
       //録音終了判定
       const filter = msg=>msg.author!=client.user;//自分以外
