@@ -241,7 +241,7 @@ client.login(process.env.DISCORD_BOT_TOKEN);
 // make a new stream for each time someone starts to talk
 function generateOutputFile(member) {
   // use IDs instead of username cause some people have stupid emojis in their name
-  const fileName = `./recordings/${member.id}-${Date.now()}.pcm`;
+  const fileName = `./recordings/${Date.now()}.pcm`;
   return fs.createWriteStream(fileName);
 }
 
@@ -275,7 +275,7 @@ function voice_record(message){
         recorded.on('data',console.log);
         recorded.on('end',()=>{
           outputStream.end();
-          console.log("recorded");
+          console.log(`${Date.now()}`);
         });
       });
     
