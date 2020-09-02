@@ -133,8 +133,14 @@ client.on("message", message => {
   }*/
   
   //voice record
-  if (message.content.startsWith("!try") ) {
+  if (message.content.startsWith("!record_add") ) {
     voice_record(message);
+    return;
+  }
+  
+  //voice record
+  if (message.content.startsWith("!record_play") ) {
+    record_play(message);
     return;
   }
   
@@ -312,12 +318,11 @@ function voice_record(message){
 
 
 
-function play_recordings(){
+function record_play(){
   fs.readdir('./public/recordings', function(err, files){
-  fs.readdir('.', function(err, files){
     if (err) throw err;
     var fileList = files.filter(function(file){
-        return fs.statSync(file).isFile() && /.*\.csv$/.test(file); //絞り込み
+        return fs.statSync(file).isFile() && /.*\.pcm$/.test(file); //絞り込み
     })
     console.log(fileList);
 });
