@@ -51,8 +51,9 @@ const fs=require("fs");
 class Silence extends Readable{
   _read(){this.push(Buffer.from([0xF8,0xFF,0xFE]))}
 }*/
-const path=require('path');
-const wavConverter = require('wav-converter')
+//const path=require('path');
+//const wavConverter = require('wav-converter') //pcm to wav
+
 
 const iceman_sound_url = [
   "https://cdn.glitch.com/97530961-035b-4578-a35b-a13ae0f6de62%2F0.m4a?v=1597761900695",
@@ -125,7 +126,7 @@ client.on("message", message => {
     return;
   }
 
-  /*\n!addch name: 「name」のテキストチャンネルを新しく作る //helpに記述
+  /*\n!addch name: 「name」のテキストチャンネルを新しく作る //helpに記述　//権限的に無し
   if (message.content.startsWith("!addch ") && message.author != client.user) {
     var channelName = message.content.replace(/^!addch /, "");
 
@@ -134,7 +135,9 @@ client.on("message", message => {
     return;
   }*/
   
-  //voice record
+  
+  /*諦めた
+  //voice add
   if (message.content.startsWith("!record_add") ) {
     voice_record(message);
     return;
@@ -145,7 +148,7 @@ client.on("message", message => {
     record_play(message);
     return;
   }
-  
+  */
   //youtue
   if (message.content.startsWith("!youtube ") ) {
     youtube_sound(message);
