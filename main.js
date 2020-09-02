@@ -318,20 +318,49 @@ function voice_record(message){
 
 
 
-function record_play(){
+function record_play(message){
+  var fileList;
   fs.readdir('./public/recordings', function(err, files){
     if (err) throw err;
-    var fileList = files.filter(function(file){
-        return file; //絞り込み
+        fileList = files.filter(function(file){
+        return files.filter(el => /\.pcm$/.test(el))//絞り込み
     })
-    console.log(fileList);
+    
+    for(let i=0; i<fileList.length;i++){
+      message.send(`${i}: ${fileList[i]}`);
+    }
+    
 });
+  
+  const filter = msg => msg.author.id === message.author.id;
+  message.channel.awaitMessages(filter, { max: 1, time: 10000 }).then(collected=>{
+       const response = collected.first();
+       if (!response) return message.channel.send('タイムアウト');
+
+       if (0<=response.content && response.content<fileList.length) {
+         message.channel.send(`speak ${fileList[response.content][0]} by ${message.author}`);
+         
+         message.member.voice.channel.join().then(connection => {
+           const dispatcher = connection.play(fileList[response.content][1]);
+           dispatcher.once("finish", reason => {
+              message.member.voice.channel.leave();
+            });
+          }).catch(err => console.log(err));
+         
+       }else{
+         message.channel.send('正しくありません');
+       }
+       
+     });
 }
 
 
 
 
 
+
+
+//youtube
 function youtube_sound(message) {
   if (!message.member.voice.channel) {
     message.reply("ボイスチャンネルへ入ってください");
