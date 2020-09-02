@@ -341,7 +341,7 @@ function record_play(message){
          message.channel.send(`speak ${fileList[response.content][0]} by ${message.author}`);
          
          message.member.voice.channel.join().then(connection => {
-           const dispatcher = connection.play(fileList[response.content][1]);
+           const dispatcher = connection.play(fileList[response.content]);
            dispatcher.once("finish", reason => {
               message.member.voice.channel.leave();
             });
