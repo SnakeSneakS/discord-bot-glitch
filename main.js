@@ -263,8 +263,11 @@ function voice_record(message){
       var recorded;
       
       connection.on('speaking', (user, speaking) => {
+        console.log(1);
         recorded=receiver.createStream(user,{mode:'opus',end:'manual'});
         const outputStream = generateOutputFile(user);
+         recorded.pipe(outputStream);
+        outputStream.on('data',console.log);
         outputStream.on('end',()=>{
           console.log("recorded");
         });
