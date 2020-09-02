@@ -47,10 +47,12 @@ const discord = require("discord.js");
 const client = new discord.Client();
 const ytdl = require('ytdl-core');
 const fs=require("fs");
-const {Readable}=require('stream');
+/*const {Readable}=require('stream');
 class Silence extends Readable{
   _read(){this.push(Buffer.from([0xF8,0xFF,0xFE]))}
-}
+}*/
+const path=require('path');
+const wavConverter = require('wav-converter')
 
 const iceman_sound_url = [
   "https://cdn.glitch.com/97530961-035b-4578-a35b-a13ae0f6de62%2F0.m4a?v=1597761900695",
@@ -279,13 +281,23 @@ function voice_record(message){
         if(!speaking) return;
         //if(user==client.user)return;
         //console.log(user);
-        recorded=receiver.createStream(user,{mode:'pcm',end:'manual'});
+        recorded=receiver.createStream(user,{mode:'pcm'/*,end:'manual'*/});
         const outputStream = generateOutputFile({user});
          recorded.pipe(outputStream);
         outputStream.on('data',console.log);
         recorded.on('end',()=>{
           outputStream.end();
           message.channel.send("end");
+          connection.play(iceman_sound_url[1]);
+          
+          /*var pcmData = fs.readFileSync(path.resolve('./public/recordings', `./${user.id}-${Date.now()}.pcm`))
+          var wavData = wavConverter.encodeWav(pcmData, {
+            numChannels: 1,
+            sampleRate: 16000,
+            byteRate: 16
+          })
+          fs.writeFileSync(path.resolve('./public/recordings', `./${user.id}-${Date.now()}.wav`), wavData)*/
+          
         });
       });
     
