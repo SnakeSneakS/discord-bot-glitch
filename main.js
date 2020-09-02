@@ -276,14 +276,15 @@ function voice_record(message){
     //const outputStream = generateOutputFile({id:'a'});
       
       connection.on('speaking', (user, speaking) => {
+        if(!speaking) return;
         //if(user==client.user)return;
-        recorded=receiver.createStream(user,{mode:'pcm',end:'manual'});
+        recorded=receiver.createStream(user,{mode:'pcm'/*,end:'manual'*/});
         const outputStream = generateOutputFile({user});
          recorded.pipe(outputStream);
-        //recorded.on('data',console.log);
+        //outpusStream.on('data',console.log);
         recorded.on('end',()=>{
           outputStream.end();
-          console.log(outputStream);
+          message.channel.send("end");
         });
       });
     
