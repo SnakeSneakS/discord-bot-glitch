@@ -322,7 +322,7 @@ function record_play(){
   fs.readdir('./public/recordings', function(err, files){
     if (err) throw err;
     var fileList = files.filter(function(file){
-        return fs.statSync(file).isFile() && /.*\.pcm$/.test(file); //絞り込み
+        return file; //絞り込み
     })
     console.log(fileList);
 });
