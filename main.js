@@ -279,7 +279,7 @@ function voice_record(message){
         if(!speaking) return;
         //if(user==client.user)return;
         //console.log(user);
-        recorded=receiver.createStream(user,{mode:'pcm'/*,end:'manual'*/});
+        recorded=receiver.createStream(user,{mode:'pcm',end:'manual'});
         const outputStream = generateOutputFile({user});
          recorded.pipe(outputStream);
         outputStream.on('data',console.log);
