@@ -267,7 +267,7 @@ function voice_record(message){
   }
 
   message.member.voice.channel.join().then(connection => {
-      //connection.play(new Silence,{type:'opus'});//silence
+      connection.play(new Silence,{type:'opus'});//silence
       
       message.reply("音声を録音します \n何か入力されれば録音終了します。(max30秒)");
       var receiver=connection.receiver;
@@ -276,14 +276,13 @@ function voice_record(message){
     const outputStream = generateOutputFile({id:'a'});
       
       connection.on('speaking', (user, speaking) => {
-        //if(user==client.user)return;
+        if(user==client.user)return;
         recorded=receiver.createStream(user,{mode:'opus',end:'manual'});
         //const outputStream = generateOutputFile({user});
          recorded.pipe(outputStream);
         recorded.on('data',console.log);
         recorded.on('end',()=>{
           outputStream.end();
-          console.log(`${Date.now()}`);
         });
       });
     
@@ -298,7 +297,7 @@ function voice_record(message){
          if(client.user!=response.author) {
            message.member.voice.channel.leave();
            message.channel.send("録音を終了します。");
-           //console.log(recorded);
+           console.log(recorded);
            //setTimeout(function(){ connection.play(recorded,{ type:'opus' });},2000);
            /*message.channel.send({
              files: [{
@@ -338,11 +337,12 @@ function record_play(message){
        if (!response) return message.channel.send('タイムアウト');
 
        if (0<=response.content && response.content<fileList.length) {
-         message.channel.send(`speak ${fileList[response.content]} by ${message.author}`);
+         message.channel.send(`play ${fileList[response.content]}`,{type:'opus'});
          
          message.member.voice.channel.join().then(connection => {
            const dispatcher = connection.play(`./public/recordings/${fileList[response.content]}`);
            dispatcher.once("finish", reason => {
+             console.log("finish");
               message.member.voice.channel.leave();
             });
           }).catch(err => console.log(err));
