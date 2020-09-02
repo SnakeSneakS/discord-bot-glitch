@@ -273,12 +273,12 @@ function voice_record(message){
       var receiver=connection.receiver;
       var recorded;
     
-    const outputStream = generateOutputFile({id:'a'});
+    //const outputStream = generateOutputFile({id:'a'});
       
       connection.on('speaking', (user, speaking) => {
         //if(user==client.user)return;
         recorded=receiver.createStream(user,{mode:'pcm',end:'manual'});
-        //const outputStream = generateOutputFile({user});
+        const outputStream = generateOutputFile({user});
          recorded.pipe(outputStream);
         //recorded.on('data',console.log);
         recorded.on('end',()=>{
@@ -296,7 +296,6 @@ function voice_record(message){
            return message.channel.send('30秒超過。録音を停止します');
          }
          if(client.user!=response.author) {
-           recorded.end='silence';
            message.member.voice.channel.leave();
            message.channel.send("録音を終了します。");
            //console.log(recorded);
