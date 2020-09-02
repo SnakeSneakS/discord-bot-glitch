@@ -327,7 +327,7 @@ function record_play(message){
     })
     
     for(let i=0; i<fileList.length;i++){
-      message.send(`${i}: ${fileList[i]}`);
+      message.channel.send(`${i}: ${fileList[i]}`);
     }
     
 });
@@ -338,10 +338,10 @@ function record_play(message){
        if (!response) return message.channel.send('タイムアウト');
 
        if (0<=response.content && response.content<fileList.length) {
-         message.channel.send(`speak ${fileList[response.content][0]} by ${message.author}`);
+         message.channel.send(`speak ${fileList[response.content]} by ${message.author}`);
          
          message.member.voice.channel.join().then(connection => {
-           const dispatcher = connection.play(fileList[response.content]);
+           const dispatcher = connection.play(`./public/recordings/${fileList[response.content]}`);
            dispatcher.once("finish", reason => {
               message.member.voice.channel.leave();
             });
