@@ -88,7 +88,7 @@ client.on("message", message => {
   //操作色々
   if (message.content.startsWith("!help") ) {
     message.channel.send(
-      "!help: helpを見る。 \n!youtube url: youtubeのurlの動画の音声を流す \n!r: 短いリアクション音声を送信　\n!bye: ボイスチャンネルから追い出す \n"
+      "!help: helpを見る。 \n!youtube url: youtubeのurlの動画の音声を流す \n!bye: ボイスチャンネルから追い出す \n"
     );
     return;
   }
