@@ -47,24 +47,13 @@ const discord = require("discord.js");
 const client = new discord.Client();
 const ytdl = require('ytdl-core');
 const fs=require("fs");
-/*const {Readable}=require('stream');
+/*const {Readable}=require('stream'); //録音botとかできたらいいけど...難しい
 class Silence extends Readable{
   _read(){this.push(Buffer.from([0xF8,0xFF,0xFE]))}
 }*/
 //const path=require('path');
 //const wavConverter = require('wav-converter') //pcm to wav
 
-
-const iceman_sound_url = [
-  "https://cdn.glitch.com/97530961-035b-4578-a35b-a13ae0f6de62%2F0.m4a?v=1597761900695",
-  "https://cdn.glitch.com/97530961-035b-4578-a35b-a13ae0f6de62%2F1.m4a?v=1597761901329",
-  "https://cdn.glitch.com/97530961-035b-4578-a35b-a13ae0f6de62%2F2.m4a?v=1597761902562",
-  "https://cdn.glitch.com/97530961-035b-4578-a35b-a13ae0f6de62%2F3.m4a?v=1597761905033", //3
-  "https://cdn.glitch.com/97530961-035b-4578-a35b-a13ae0f6de62%2F4.m4a?v=1597761903812",
-  "https://cdn.glitch.com/97530961-035b-4578-a35b-a13ae0f6de62%2F5.m4a?v=1597761906161",
-  "https://cdn.glitch.com/97530961-035b-4578-a35b-a13ae0f6de62%2F6.m4a?v=1597761903495",
-  "https://cdn.glitch.com/97530961-035b-4578-a35b-a13ae0f6de62%2F7.m4a?v=1597761903469" //7
-];
 
 const short_reaction_list=[
   ["ありがとう","https://cdn.glitch.com/97530961-035b-4578-a35b-a13ae0f6de62%2Fr_arigatou.m4a?v=1597761480659"], //声、url
@@ -85,22 +74,10 @@ const short_reaction_list=[
   ["WeCanDoIt!","https://cdn.glitch.com/97530961-035b-4578-a35b-a13ae0f6de62%2Fr_wecandoit.m4a?v=1597761482910"]
 ]
 
-const signal_reaction_list=[
-  ["とらつぴーだぉ（男","https://cdn.glitch.com/97530961-035b-4578-a35b-a13ae0f6de62%2Fsignal_tratsupidao_0.m4a?v=1598871690054"],
-  ["とらつぴーだぉ（女","https://cdn.glitch.com/97530961-035b-4578-a35b-a13ae0f6de62%2Fsignal_tratsupidao_1.m4a?v=1598871806405"],
-  ["王子ペロペロ","https://cdn.glitch.com/97530961-035b-4578-a35b-a13ae0f6de62%2Fsignal_oujiperopero.m4a?v=1598871980018"]
-]
-
-
 //readyの時
 client.on("ready", message => {
-  client.user.setPresence({ activity: { name: "I am an ice man 「!help」でヘルプ" } });
-  console.log("ice man is here!");
+  client.user.setPresence({ activity: { name: "「!help」でヘルプ" } });
 });
-
-
-
-
 
 
 
@@ -113,15 +90,14 @@ client.on("message", message => {
   
   //呼びかけ
   if (message.mentions.has(client.user) ) {
-    message.reply("Hello ,  I am an ice man! \n!help　と送信すればこのbotの機能が分かります");
+    message.reply("Hello , I am a bot! \n!help　と送信すればこのbotの機能が分かります");
     return;
   }
   
-
   //操作色々
   if (message.content.startsWith("!help") ) {
     message.channel.send(
-      "!help: helpを見る。 \n!youtube url: youtubeのurlの動画の音声を流す \n!iceman: 様々なアイスマンの音声 \n!r: 短いリアクション音声を送信　\n!signal: signal関係のリアクション音声 \n!bye: ボイスチャンネルから追い出す \n\n 何か欲しい機能あればtwitterで言ってください。音声ファイル送ってくれればそれも流せます"
+      "!help: helpを見る。 \n!youtube url: youtubeのurlの動画の音声を流す \n!r: 短いリアクション音声を送信　\n!bye: ボイスチャンネルから追い出す \n"
     );
     return;
   }
@@ -136,7 +112,7 @@ client.on("message", message => {
   }*/
   
   
-  /*諦めた
+  /*録音機能を諦めた
   //voice add
   if (message.content.startsWith("!record_add") ) {
     voice_record(message);
@@ -149,48 +125,25 @@ client.on("message", message => {
     return;
   }
   */
+
   //youtue
   if (message.content.startsWith("!youtube ") ) {
     youtube_sound(message);
     return;
   }
-
-  //iceman
-  if (message.content.startsWith("!iceman") ) {
-    iceman_sound(message);
-    return;
-  }
-  
   
   //reation voice
   if(message.content.startsWith("!r") ){
     ShortReaction(message);
     return;
-  }
-  
-  
-  //signal reation voice
-  if(message.content.startsWith("!signal") ){
-    SignalReaction(message);
-    return;
-  }
-  
+  }  
   
    //stop
   if (message.content.startsWith("!bye") ) {
     bye(message);
     return;
   }
-  
-  
 
-  //名前に反応
-  /*if (message.content.includes("ice") && message.author != client.user) {
-    message.reply("a");
-    message.react(":pensive: ");
-
-    return;
-  }*/
 });
 
 
@@ -265,6 +218,8 @@ function generateOutputFile(member) {
 
 
 /*関数が出てくるぜkaksjfkakfakkfmkakkfmkmkamkfmmakmkfmkmksmkmfkamkmakkfmkamkfmkamfmamkmfkmkamkmfkmamkmfkamfkaakkakakkakakakka*/
+//諦めた
+/*
 function voice_record(message){
   if (!message.member.voice.channel) {
     message.reply("ボイスチャンネルへ入ってください");
@@ -284,7 +239,7 @@ function voice_record(message){
         if(!speaking) return;
         //if(user==client.user)return;
         //console.log(user);
-        recorded=receiver.createStream(user,{mode:'pcm'/*,end:'manual'*/});
+        recorded=receiver.createStream(user,{mode:'pcm'}); //,end:'manual'
         const outputStream = generateOutputFile({user});
          recorded.pipe(outputStream);
         outputStream.on('data',console.log);
@@ -300,7 +255,7 @@ function voice_record(message){
             byteRate: 16
           })
           fs.writeFileSync(path.resolve('./public/recordings', `./${user.id}-${Date.now()}.wav`), wavData)*/
-          
+       /*   
         });
       });
     
@@ -322,17 +277,14 @@ function voice_record(message){
     attachment: recorded,
     name: 'file.jpg'
   }]});*/
-           
+           /*
          }
         
          
       });  
     }).catch(err => console.log(err));
 
-}
-
-
-
+}*/
 
 
 function record_play(message){
@@ -358,13 +310,10 @@ function record_play(message){
 });
   
   //if(!fileList.length) 
-  
   const filter = msg => msg.author.id === message.author.id;
   message.channel.awaitMessages(filter, { max: 1, time: 10000 }).then(collected=>{
        const response = collected.first();
        if (!response) return message.channel.send('タイムアウト');
-    
-       
       
        if (0<=response.content && response.content<fileList.length) {
          message.channel.send(`play ${fileList[response.content]}`,{type:'converted'});
