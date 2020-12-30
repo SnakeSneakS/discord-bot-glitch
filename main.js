@@ -47,7 +47,7 @@ const discord = require("discord.js");
 const client = new discord.Client();
 const ytdl = require('ytdl-core');
 const fs=require("fs");
-/*const {Readable}=require('stream'); //録音botとかできたらいいけど...難しい
+/*const {Readable}=require('stream'); //録音botとかできたらいいけど...難しい //I wanted to record, but did't find good way.
 class Silence extends Readable{
   _read(){this.push(Buffer.from([0xF8,0xFF,0xFE]))}
 }*/
@@ -55,23 +55,14 @@ class Silence extends Readable{
 //const wavConverter = require('wav-converter') //pcm to wav
 
 
+//自分でどこかに音声データをアップロードし、そのurlをここに追加したら、アップロードした音声をShortReaction(message);関数で再生できる。client.on中でコメントアウトしている部分参照
+//upload audio data, set it's url here. function ShortReaction(message) play the audio. See  on.client
 const short_reaction_list=[
-  ["ありがとう","https://cdn.glitch.com/97530961-035b-4578-a35b-a13ae0f6de62%2Fr_arigatou.m4a?v=1597761480659"], //声、url
-  ["いえーい","https://cdn.glitch.com/97530961-035b-4578-a35b-a13ae0f6de62%2Fr_iei.m4a?v=1597761480192"],    //r_iei 
-  ["ナイス！","https://cdn.glitch.com/97530961-035b-4578-a35b-a13ae0f6de62%2Fr_nice.m4a?v=1597761482039"],
-  ["わらわら","https://cdn.glitch.com/97530961-035b-4578-a35b-a13ae0f6de62%2Fr_warawara.m4a?v=1597761481380"],
-  ["おおう...","https://cdn.glitch.com/97530961-035b-4578-a35b-a13ae0f6de62%2Fr_oou.m4a?v=1597761481808"],
-  ["ごめん","https://cdn.glitch.com/97530961-035b-4578-a35b-a13ae0f6de62%2Fr_gomen.m4a?v=1597761480281"],
-  ["ぴえん","https://cdn.glitch.com/97530961-035b-4578-a35b-a13ae0f6de62%2Fr_pien.m4a?v=1598788034754"],
-  ["どんまい","https://cdn.glitch.com/97530961-035b-4578-a35b-a13ae0f6de62%2Fr_donmai.m4a?v=1597761479808"],
-  ["こんにちは","https://cdn.glitch.com/97530961-035b-4578-a35b-a13ae0f6de62%2Fr_konnnitiwa.m4a?v=1597761481123"],
-  ["こんばんは","https://cdn.glitch.com/97530961-035b-4578-a35b-a13ae0f6de62%2Fr_konbanwa.m4a?v=1597761480809"],
-  ["いってらっしゃい","https://cdn.glitch.com/97530961-035b-4578-a35b-a13ae0f6de62%2Fr_itterassyai.m4a?v=1597761480726"],
-  ["お疲れ様です","https://cdn.glitch.com/97530961-035b-4578-a35b-a13ae0f6de62%2Fr_otukaresamadesu.m4a?v=1597761481547"],
-  ["はい","https://cdn.glitch.com/97530961-035b-4578-a35b-a13ae0f6de62%2Fr_hai.m4a?v=1597761480064"],
-  ["いいえ","https://cdn.glitch.com/97530961-035b-4578-a35b-a13ae0f6de62%2Fr_iie.m4a?v=1597761480508"],
-  ["of course","https://cdn.glitch.com/97530961-035b-4578-a35b-a13ae0f6de62%2Fr_ofcourse.m4a?v=1597761481630"],
-  ["WeCanDoIt!","https://cdn.glitch.com/97530961-035b-4578-a35b-a13ae0f6de62%2Fr_wecandoit.m4a?v=1597761482910"]
+  /*
+  example: 
+  ["hello","voice data url for hello"], 
+  ["good bye","voice data url for good bye"],
+  ["happy birthday","voice data url for happy birthday"]  */
 ]
 
 //readyの時
@@ -102,30 +93,6 @@ client.on("message", message => {
     return;
   }
 
-  /*\n!addch name: 「name」のテキストチャンネルを新しく作る //helpに記述　//権限的に無し
-  if (message.content.startsWith("!addch ") && message.author != client.user) {
-    var channelName = message.content.replace(/^!addch /, "");
-
-    guild.channels.create(channelName, {type:"text"});
-    message.reply("create channel" + channelName);
-    return;
-  }*/
-  
-  
-  /*録音機能を諦めた
-  //voice add
-  if (message.content.startsWith("!record_add") ) {
-    voice_record(message);
-    return;
-  }
-  
-  //voice record
-  if (message.content.startsWith("!record_play") ) {
-    record_play(message);
-    return;
-  }
-  */
-
   //youtue
   if (message.content.startsWith("!youtube ") ) {
     youtube_sound(message);
@@ -133,10 +100,11 @@ client.on("message", message => {
   }
   
   //reation voice
+  /*
   if(message.content.startsWith("!r") ){
     ShortReaction(message);
     return;
-  }  
+  }  */
   
    //stop
   if (message.content.startsWith("!bye") ) {
@@ -145,31 +113,6 @@ client.on("message", message => {
   }
 
 });
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -187,38 +130,18 @@ client.login(process.env.DISCORD_BOT_TOKEN);
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 // make a new stream for each time someone starts to talk
+/* gave up recording voice
 function generateOutputFile(member) {
   // use IDs instead of username cause some people have stupid emojis in their name
   const fileName = `./public/recordings/${member.id}-${Date.now()}.pcm`;
   const file= fs.createWriteStream(fileName);
   return file;
-}
+}*/
 
 
-
-
-
-
-
-
-/*関数が出てくるぜkaksjfkakfakkfmkakkfmkmkamkfmmakmkfmkmksmkmfkamkmakkfmkamkfmkamfmamkmfkmkamkmfkmamkmfkamfkaakkakakkakakakka*/
-//諦めた
+/*関数が出てくるぜ functions below*/
+//諦めた gave up
 /*
 function voice_record(message){
   if (!message.member.voice.channel) {
