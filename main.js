@@ -1,13 +1,7 @@
-// Response for Uptime Robot
 /*
-const http = require("http");
-
-http.createServer(function(request, response) {
-    response.writeHead(200, { "Content-Type": "text/plain" });
-    response.end("Discord bot is active now \n");
-  }).listen(3000);
+Watch version when something doesn't go well. 
+(for example, if youtube can't properly played, ytdl-core's version might be too old.)
 */
-
 
 const http = require("http");
 const querystring = require("querystring");
@@ -273,7 +267,7 @@ function youtube_sound(message) {
   const url = message.content.split(" ")[1];
 
   if (!ytdl.validateURL(url)) {
-    message.reply("動画が存在しません");
+    message.reply("動画が存在しません。urlが間違っていないか、又は半角空白が1つだけ入っているかを確認してください");
     return;
   }
 
