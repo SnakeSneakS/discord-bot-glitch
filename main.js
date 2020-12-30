@@ -253,9 +253,6 @@ function record_play(message){
 
 
 
-
-
-
 //youtube
 function youtube_sound(message) {
   if (!message.member.voice.channel) {
@@ -288,45 +285,6 @@ function youtube_sound(message) {
       });
     }).catch(err => console.log(err));
 }
-
-
-
-
-
-
-
-
-
-function iceman_sound(message) {
-  if (!message.member.voice.channel) {
-    message.reply("ボイスチャンネルへ入ってください");
-    return;
-  }
-
-  //const url = "https://www.youtube.com/watch?v=ZlAU_w7-Xp8";
-  const url_num = Math.floor(Math.random() * iceman_sound_url.length);
-
-  const url = iceman_sound_url[url_num];
-
-  message.member.voice.channel
-    .join()
-    .then(connection => {
-      message.reply("play iceman sound");
-
-      const dispatcher = connection.play(url);
-
-      dispatcher.once("finish", reason => {
-        message.reply("iceman sound " + url_num + " end");
-        message.member.voice.channel.leave();
-      });
-    })
-    .catch(err => console.log(err));
-}
-
-
-
-
-
 
 
 function ShortReaction(message){
@@ -366,54 +324,7 @@ function ShortReaction(message){
        }
        
      });
-     
-
 }
-
-
-
-
-function SignalReaction(message){
-  if (!message.member.voice.channel) {
-    message.reply("ボイスチャンネルへ入ってください");
-    return;
-  }
-  
-  let reaction_list="反応一覧 ";
-  for(let i=0;i<signal_reaction_list.length;i++){
-    //reaction_list+="\n"+i+": "+signal_reaction_list[i][0];
-    if(i%2==0)reaction_list+="\n";
-    reaction_list+=i+": "+signal_reaction_list[i][0]+" ";
-  }
-  
-   message.reply(reaction_list);
-  
-   message.channel.send('番号を入力してください（10秒）');
-     const filter = msg => msg.author.id === message.author.id;
-     message.channel.awaitMessages(filter, { max: 1, time: 10000 }).then(collected=>{
-       const response = collected.first();
-       if (!response) return message.channel.send('タイムアウト');
-
-       if (0<=response.content && response.content<signal_reaction_list.length) {
-         message.channel.send(`speak ${signal_reaction_list[response.content][0]} by ${message.author}`);
-         
-         message.member.voice.channel.join().then(connection => {
-           const dispatcher = connection.play(signal_reaction_list[response.content][1]);
-           dispatcher.once("finish", reason => {
-              message.member.voice.channel.leave();
-            });
-          }).catch(err => console.log(err));
-         
-       }else{
-         message.channel.send('正しくありません');
-       }
-       
-     });
-     
-
-}
-
-
 
 
 
