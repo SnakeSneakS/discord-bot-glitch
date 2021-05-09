@@ -11,8 +11,3 @@
 
 To get discord bot token, visit discord official develoer site; https://discordapp.com/developers/applications/me/
 
-## Running bot 24h on glitch.com
-
-Applications on `glitch.com` may sleep when keep no access for 5 minutes.
-You must ping application URL every 5 minutes to run your bot continuously.
-Using `Google Apps Script` service is just good.
